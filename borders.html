@@ -1,0 +1,107 @@
+<!--
+ * @Author: LuiScreaMed lui5@qq.com
+ * @LastEditTime: 2023-11-08 21:51:56
+ * Copyright (c) 2023 by LuiScreaMed
+ * MIT Licensed
+ * @Description: 框框
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borders by LuiScreaMed</title>
+</head>
+<body>
+    <div id="main">
+
+    </div>
+</body>
+<style>
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    #main {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .border {
+        position: absolute;
+    }
+</style>
+<script>
+    // 主要容器
+    let container = document.getElementById("main");
+
+    // 框框数组
+    let borders = [];
+
+    // 框框类
+    class Border {
+        constructor(width, height, x, y, borderWeight) {
+            this.width = width;
+            this.height = height;
+            this.x = x;
+            this.y = y;
+            this.borderWeight = borderWeight;
+        }
+    }
+
+    // 计时器
+    let timer = undefined;
+
+    // 生成框框
+    function generateBorders() {
+        // 清除上次的框框
+        borders = [];
+
+        // 生成的框框数量
+        let borderCount = Math.ceil(2 + (Math.random() * 3));
+
+        // 插入指定数量的框框
+        for(let i = 0; i < borderCount; i++) {
+            // 随机宽高和坐标和粗细
+            let width = 12 + (Math.random() * 10);
+            let x = 20 + (Math.random() * 60);
+            let y = 20 + (Math.random() * 60);
+            borders.push(new Border(width, width * 2.3, x, y, Math.ceil(width / 12)));
+        }
+
+        // 刷新画面
+        update();
+
+        // 2 ~ 4秒内执行一次
+        let time = 2 + (Math.random() * 2);
+        timer = setTimeout(() => {
+            generateBorders();
+        }, time * 1000)
+    }
+
+    // 刷新画面
+    function update() {
+        container.innerHTML = "";
+        for(let i = 0; i < borders.length; i++) {
+            border = borders[i];
+            let borderDiv = document.createElement('div');
+            borderDiv.style.width = `${border.width}px`;
+            borderDiv.style.height = `${border.height}px`;
+            borderDiv.style.left = `${border.x}%`;
+            borderDiv.style.top = `${border.y}%`;
+            borderDiv.style.border = `white solid ${border.borderWeight}px`;
+            borderDiv.classList.add("border");
+            container.appendChild(borderDiv);
+        }
+    }
+
+    generateBorders();
+</script>
+</html>
